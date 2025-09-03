@@ -1,0 +1,18 @@
+{
+  "name": "tinder-clone",
+  "version": "1.0.0",
+  "description": "Tinder for developers",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node src/app.js",
+    "dev" : "npx nodemon src/app.js"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Danish Alam",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
