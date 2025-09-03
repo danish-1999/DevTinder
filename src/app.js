@@ -2,15 +2,26 @@ const express = require("express");
 
 const app = express();
 
-app.use("/test",(req, res) => {
-  res.send("I'm from the server!");
+
+
+
+
+app.get("/user",(req, res) => {
+  res.send({"firstName" : "Danish", "lastName" : "Alam"});
 });
-app.use("/hello",(req, res) => {
-  res.send("Hello hello hello");
+
+app.post("/user",(req, res) => {
+  res.send("Data is saved to the server.");
 });
-app.use("/",(req, res) => {
-  res.send("hi to dashboard");
+
+app.delete("/user",(req, res) => {
+  res.send("Profile deleted successfully");
 });
+
+app.patch("/user",(req, res) => {
+  res.send("Profile updated successfully");
+});
+
 
 app.listen(8888, () =>{
   console.log("I'm listening in port number 8888...");
