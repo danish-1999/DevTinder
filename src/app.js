@@ -2,23 +2,42 @@ const express = require("express");
 
 const app = express();
 
+// Error Handling
+
+app.post("/user/getData", (req, res) => {
+  // try {
+  //   throw new error ("sndkcfe");
+  //   res.send("user data sent");
+  // } catch(err) {
+  //   res.status(500).send("something is wrong connect to team");
+  // }
+  throw new error ("sndkcfe");
+  res.send("user data sent");
+});
+
+app.use("/", (err, req, res, next) => {
+ if (err) {
+  res.status(500).send("something is wrong connect to team");
+ }
+});
+
 // Midlewares
-const {adminAuth, userAuth} = require("./mildlewares/auth");
-app.use("/admin", adminAuth);
+// const {adminAuth, userAuth} = require("./mildlewares/auth");
+// app.use("/admin", adminAuth);
 
-app.post("/user/login", (req, res) => {
-  res.send("user data sent");
-})
-app.get("/user/data", userAuth, (req, res) => {
-  res.send("user data sent");
-})
+// app.post("/user/login", (req, res) => {
+//   res.send("user data sent");
+// })
+// app.get("/user/data", userAuth, (req, res) => {
+//   res.send("user data sent");
+// })
 
-app.get("/admin/daleteUser", (req, res) => {
-  res.send("Deleted user data!");
-});
-app.get("/admin/getAllData", (req, res) => {
-  res.send("All data sent");
-});
+// app.get("/admin/daleteUser", (req, res) => {
+//   res.send("Deleted user data!");
+// });
+// app.get("/admin/getAllData", (req, res) => {
+//   res.send("All data sent");
+// });
 
 
 //Route Handlers
