@@ -2,40 +2,59 @@ const express = require("express");
 
 const app = express();
 
+// Midlewares
+const {adminAuth, userAuth} = require("./mildlewares/auth");
+app.use("/admin", adminAuth);
+
+app.post("/user/login", (req, res) => {
+  res.send("user data sent");
+})
+app.get("/user/data", userAuth, (req, res) => {
+  res.send("user data sent");
+})
+
+app.get("/admin/daleteUser", (req, res) => {
+  res.send("Deleted user data!");
+});
+app.get("/admin/getAllData", (req, res) => {
+  res.send("All data sent");
+});
+
 
 //Route Handlers
-app.use(
- "/user", 
- (req, res, next) => {
-  // This is route handler
-  console.log("I'm in Route halndler 1!");
-  next();
-  // res.send("Route Handler 1");
- },
- (req, res, next) => {
-  // This is route handler
-  console.log("I'm in Route halndler 2!");
-  // res.send("Route Handler 2");
-  next();
- },
- (req, res, next) => {
-  // This is route handler
-  console.log("I'm in Route halndler 3!");
-  // res.send("Route Handler 3");
-  next();
- },
- (req, res, next) => {
-  // This is route handler
-  console.log("I'm in Route halndler 4!");
-  // res.send("Route Handler 4");
-  next();
- },
- (req, res) => {
-  // This is route handler
-  console.log("I'm in Route halndler 5!");
-  res.send("Route Handler 5");
- }
-);
+
+// app.use(
+//  "/user", 
+//  (req, res, next) => {
+//   // This is route handler
+//   console.log("I'm in Route halndler 1!");
+//   next();
+//   // res.send("Route Handler 1");
+//  },
+//  (req, res, next) => {
+//   // This is route handler
+//   console.log("I'm in Route halndler 2!");
+//   // res.send("Route Handler 2");
+//   next();
+//  },
+//  (req, res, next) => {
+//   // This is route handler
+//   console.log("I'm in Route halndler 3!");
+//   // res.send("Route Handler 3");
+//   next();
+//  },
+//  (req, res, next) => {
+//   // This is route handler
+//   console.log("I'm in Route halndler 4!");
+//   // res.send("Route Handler 4");
+//   next();
+//  },
+//  (req, res) => {
+//   // This is route handler
+//   console.log("I'm in Route halndler 5!");
+//   res.send("Route Handler 5");
+//  }
+// );
 
 // app.get("/user/:userId/:Name/:Password",(req, res) => {
 //   console.log(req.params)
