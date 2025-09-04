@@ -3,10 +3,44 @@ const express = require("express");
 const app = express();
 
 
-app.get("/user/:userId/:Name/:Password",(req, res) => {
-  console.log(req.params)
-  res.send({"firstName" : "Danish", "lastName" : "Alam"});
-});
+//Route Handlers
+app.use(
+ "/user", 
+ (req, res, next) => {
+  // This is route handler
+  console.log("I'm in Route halndler 1!");
+  next();
+  // res.send("Route Handler 1");
+ },
+ (req, res, next) => {
+  // This is route handler
+  console.log("I'm in Route halndler 2!");
+  // res.send("Route Handler 2");
+  next();
+ },
+ (req, res, next) => {
+  // This is route handler
+  console.log("I'm in Route halndler 3!");
+  // res.send("Route Handler 3");
+  next();
+ },
+ (req, res, next) => {
+  // This is route handler
+  console.log("I'm in Route halndler 4!");
+  // res.send("Route Handler 4");
+  next();
+ },
+ (req, res) => {
+  // This is route handler
+  console.log("I'm in Route halndler 5!");
+  res.send("Route Handler 5");
+ }
+);
+
+// app.get("/user/:userId/:Name/:Password",(req, res) => {
+//   console.log(req.params)
+//   res.send({"firstName" : "Danish", "lastName" : "Alam"});
+// });
 
 // app.post("/user",(req, res) => {
 //   res.send("Data is saved to the server.");
