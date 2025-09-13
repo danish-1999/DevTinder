@@ -71,17 +71,23 @@ app.delete("/deleteUser", async (req, res) => {
 })
 
 // Update details of user
-app.patch("/updataUser", async(req, res) => {
+app.patch("/updataUser/:userId", async(req, res) => {
+    const userId = req.params?.userId;
+    const data = req.body;
   try {
-    const user = await User.findByIdAndUpdate(req.body.userId, req.body);
+    if (data?.skills.length > 8) throw new Error("You can add skills upto 7");
+    const user = await User.findByIdAndUpdate(
+      userId,
+      data,
+      {runValidators : true}
+    );
     if(!user)
       res.status(404).send("User not found");
     else {
-      console.log(user);
       res.send("user update succefully!!");
     }
   } catch (error) {
-    res.status(400).send("User id not updated" + error.message);
+    res.status(400).send("User id not updated " + error.message);
   }
 })
 

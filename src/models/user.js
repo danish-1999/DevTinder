@@ -22,7 +22,12 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type :  String, 
-    required: true
+    required: true,
+    immutable : true
+  },
+  photoUrl: {
+    type: String,
+    default : "https://images.unsplash.com/photo-1497316730643-415fac54a2af?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8"
   },
   age: {
     type: Number, 
@@ -37,9 +42,12 @@ const userSchema = new mongoose.Schema({
   },
   about: {
     type: String,
-    default: "Give some descriptin about yuorself."
+    default: "Give some descriptin about yuorself.",
+    maxLength: 50
   },
-  skills: {type :  [String], },
+  skills: {
+    type :  [String], 
+  },
 },
 { 
   timestamps: true 
