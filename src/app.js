@@ -72,18 +72,18 @@ app.delete("/deleteUser", async (req, res) => {
 
 // Update details of user
 app.patch("/updataUser/:Id", async(req, res) => {
-  const userId = req.params.Id;
+  const userId = req?.params?.Id;
   const data = req.body;
   try {
     const allowedUpdates = [
-     "firstName",
-     "age",
-     "password",
-     "lastName",
-     "photoUrl",
-     "gender",
-     "about",
-     "skills",
+      "firstName",
+      "age",
+      "password",
+      "lastName",
+      "photoUrl",
+      "gender",
+      "about",
+      "skills",
     ];
     const isAllowed = Object.keys(data).every(k => 
       allowedUpdates.includes(k)
@@ -92,7 +92,7 @@ app.patch("/updataUser/:Id", async(req, res) => {
       throw new Error("We try to access unchangable things");
       
     }
-    if (data.skills.length > 8) {
+    if (data.skills && data.skills.length > 8) {
       throw new Error("We can not add more than eight(8) skills");
     }
     const user = await User.findByIdAndUpdate(
