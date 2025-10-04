@@ -5,9 +5,13 @@ const app = express();
 const {validateSignUpData} = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+const { userAuth } = require("./mildlewares/auth");
 
 // Make a midleware
 app.use(express.json());
+app.use(cookieParser());
 
 app.post("/signup", async(req, res) => {
   try {
@@ -16,9 +20,11 @@ app.post("/signup", async(req, res) => {
     const { firstName, lastName, emailId, password } = req.body;
     // Encrypt user password 
     const passwordHash = await bcrypt.hash(password, 10);
-    console.log(passwordHash);
     // Creating user account
     const user = new User({firstName, lastName, emailId, password : passwordHash});
+    const token = await user.getToken();
+    // Add token to the cookie and send response back to the user
+    res.cookie("token", token);
 
     user.save().then(() => {
       res.send("User added succesfully...");
@@ -29,6 +35,23 @@ app.post("/signup", async(req, res) => {
     res.status(400).send("ERROR : " + error.message);
   }
 })
+
+// Get the user cookie
+app.get("/profile", userAuth, async(req, res) => {
+  try {
+    const user = req.user
+
+    res.send(user);
+  } catch (error) {
+    res.status(400).send("ERROR : " + error.message);
+  }
+})
+
+// Send new connection
+app.post("/sendNewConnection", userAuth, async (req, res) => {
+  const user = req.user;
+  res.send(user.firstName + " " + user.lastName + " sent the connection request");
+});
 
 // Login to user
 app.post("/login", async(req, res) => {
@@ -41,8 +64,12 @@ app.post("/login", async(req, res) => {
     if (!user) {
       throw new Error("Email Id or password is wrong");
     }
-    const isPassword = await bcrypt.compare(password, user.password);
+    const isPassword = await user.encryptPassword(password);
     if (isPassword) {
+      // Creat JWT token
+      const token = await user.getToken();
+      // Add token to the cookie and send response back to the user
+      res.cookie("token", token);
       res.send("Login Successfully");
     } else {
       throw new Error("Email Id or password is wrong");

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const connectDB = async() =>{
   await mongoose.connect(
-   "mongodb+srv://Danish_Alam:Danish%407399@tinder-cluster.ekrkwih.mongodb.net/Tinder-Clone"
+   "mongodb+srv://Danish_Alam:Danish7399@tinder-cluster.ekrkwih.mongodb.net/Tinder-Clone"
   );
 }
 
