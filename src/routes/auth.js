@@ -5,7 +5,6 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
-
 router.post("/signup", async (req, res) => {
  try {
   // Validation during sign up
@@ -24,7 +23,7 @@ router.post("/signup", async (req, res) => {
   // Add token to the cookie and send response back to the user
   res.cookie("token", token);
 
-  user
+  await user
    .save()
    .then(() => {
     res.send("User added succesfully...");
