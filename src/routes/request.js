@@ -43,4 +43,28 @@ router.post("/request/send/:status/:userId", userAuth, async (req, res) => {
   }
 });
 
+router.post("/request/review/:status/:connectionId", userAuth, async(req, res) => {
+  try {
+    const loggedInUser = req.user;
+    const { status, connectionId } = req?.params;
+    const isAllowedStatus = ["accepted", "rejected"];
+    if (!isAllowedStatus.includes(status)) {
+      throw new Error("Status type is invalid");
+    }
+    const connectionRequest = await ConnectionRequest.findOne({
+      _id: connectionId,
+      toUserId: loggedInUser._id,
+      status: "interested",
+    });
+    if (!connectionRequest) {
+      throw new Error("Connection between both you is not found");
+    }
+    const sender = await User.findById(connectionRequest.fromUserId);
+    connectionRequest.status = status;
+    await connectionRequest.save();
+    res.send("You "+ status+ " the request of "+ sender.firstName);
+  } catch (error) {
+    res.status(400).send("Error: " + error.message);
+    }
+})
 module.exports = router;
