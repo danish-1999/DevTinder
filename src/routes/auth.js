@@ -53,7 +53,7 @@ router.post("/login", async (req, res) => {
    const token = await user.getToken();
    // Add token to the cookie and send response back to the user
    res.cookie("token", token);
-   res.send("Login Successfully");
+   res.send(user);
   } else {
    throw new Error("Email Id or password is wrong");
   }
