@@ -5,7 +5,7 @@ const userAuth = async (req, res, next) => {
   try{
     const { token } = req.cookies;
     if (!token) {
-      throw new Error("Cookie expired please login agian");
+      return res.status(401).send("Please login");
     }
     const decodedMessage = jwt.verify(token, "Tinder@clone_2025");
     const {_id} = decodedMessage;
